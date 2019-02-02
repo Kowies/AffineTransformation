@@ -4,15 +4,15 @@
 %macro newLocation 0
 
 	cvtsi2sd xmm0, R10
-	movsd  xmm1, QWORD [R8]        ;matrix[0]
+	movsd  xmm1, QWORD [R8]        	;matrix[0]
 	mulsd  xmm1, xmm0
 
 	cvtsi2sd xmm0, R9
-	movsd  xmm2, QWORD [R8 + 8]        ;matrix[1]
+	movsd  xmm2, QWORD [R8 + 8]     ;matrix[1]
 	mulsd  xmm0, xmm2
 
 	addsd  xmm0, xmm1
-	movsd  xmm1, QWORD [R8 + 16]          ;matrix[2]
+	movsd  xmm1, QWORD [R8 + 16]    ;matrix[2]
 	addsd  xmm0, xmm1
 
 	cvttsd2si r12, xmm0
@@ -20,15 +20,15 @@
 ;************************
 
 	cvtsi2sd xmm0, R10
-	movsd  xmm1, QWORD [R8 + 24]        ;matrix[3]
+	movsd  xmm1, QWORD [R8 + 24]     ;matrix[3]
 	mulsd  xmm1, xmm0
 
 	cvtsi2sd xmm0, R9
-	movsd  xmm2, QWORD [R8 + 32]        ;matrix[4]
+	movsd  xmm2, QWORD [R8 + 32]     ;matrix[4]
 	mulsd  xmm0, xmm2
 
 	addsd  xmm0, xmm1
-	movsd  xmm1, QWORD [R8 + 40]          ;matrix[5]
+	movsd  xmm1, QWORD [R8 + 40]     ;matrix[5]
 	addsd  xmm0, xmm1
 	
 	cvttsd2si r11, xmm0
@@ -58,8 +58,6 @@ x86_function:
 	push rbx
 	push r12
 	push r13
-	;push r14
-	;push r15
 ;------------------------------------------------------------------------------
 
 	mov rax, rcx
@@ -69,21 +67,6 @@ x86_function:
 
 	add rsi, rax
 	add rdi, rax
-
-;for (int j=0; j < height; ++j)
-;{
-;	for (int i=0; i < width; ++i)
-;	{
-;		newI,newJ = matrixCalc(i,j);
-;		screen[i + weight*j] = picture[newI + weight*newJ];
-;	}
-;}
-
-;R9  = j
-;R10 = i
-
-;R11 = newJ
-;R12 = newI
 
 
 ;*****************************************
@@ -166,14 +149,12 @@ loop_1_end:
 
 
 ;------------------------------------------------------------------------------
-	;pop r15
-	;pop r14
 	pop r13
 	pop r12
 	pop rbx
 ;------------------------------------------------------------------------------
 
 	mov rsp, rbp	; restore original stack pointer
-	pop rbp		; restore "calling procedure" frame pointer
+	pop rbp			; restore "calling procedure" frame pointer
 	ret
 

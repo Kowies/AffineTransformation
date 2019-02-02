@@ -1,10 +1,7 @@
-#include <stdio.h> 		// angle brackets include looks for file 'stdio.h' 
-#include <string.h>		//	in all the possible directories (including 
-#include <stdlib.h>		//	this file directory or system directories)
-
-
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 #include <math.h>
-
 
 #include <SDL/SDL.h>
 
@@ -17,7 +14,6 @@ const char* fileName = "picture.bmp";
 SDL_Surface* screen = NULL;
 SDL_Surface* picture = NULL;
 
-
 SDL_Surface* openPictureInDisplayFormat(const char * name)
 {
 	SDL_Surface* picture = SDL_LoadBMP(name);
@@ -28,7 +24,6 @@ SDL_Surface* openPictureInDisplayFormat(const char * name)
 	SDL_FreeSurface( picture );
 	return newPicture;
 }
-
 
 void multipleMatrix(double *x, double *y)
 {
@@ -55,12 +50,8 @@ void multipleMatrix(double *x, double *y)
 	x[8] = tmp[8];
 }
 
-
-double x = 0.7;
-
 int main(int argc, char *argv[])
 {
-
 
 	SDL_Init( SDL_INIT_EVERYTHING );
 
@@ -68,16 +59,11 @@ int main(int argc, char *argv[])
  	size_t width = picture->w;
  	size_t height = picture->h;
  	
-
-
  	screen = SDL_SetVideoMode( width, height, 32, SDL_SWSURFACE );
 
  	picture =  openPictureInDisplayFormat(fileName);
 
  	printf("width: %ld\nheight: %ld\n", width, height);
-
-
- 	//SDL_BlitSurface( picture, NULL, screen, NULL );
 
 
     SDL_Event event;
@@ -88,9 +74,8 @@ int main(int argc, char *argv[])
     double translationY = 0;
     double scalar = 1;
 
-	 while( !quit )
-	 {
-        /* Poll for events */
+	while( !quit )
+	{
         while( SDL_PollEvent( &event ) )
         {
             switch( event.type )
@@ -141,8 +126,6 @@ int main(int argc, char *argv[])
 	                }
 	                break;
 
-
-                /* SDL_QUIT event (window close) */
                 case SDL_QUIT:
                     quit = 1;
                     break;
@@ -155,45 +138,43 @@ int main(int argc, char *argv[])
 
         double matrix[] = 
         {
-        1, 0, 0,
-        0, 1, 0,
-        0, 0, 1
-        };
+			1, 0, 0,
+			0, 1, 0,
+			0, 0, 1
+		};
 
-        double sinValue = sin(angle);
-        double cosValue = cos(angle);
+		double sinValue = sin(angle);
+		double cosValue = cos(angle);
 
-        double rotationMatrix[] =
-        {
-        	cosValue, sinValue, 0,
-        	-sinValue, cosValue, 0,
-        	0, 0, 1
-        };
+		double rotationMatrix[] =
+		{
+			cosValue, sinValue, 0,
+			-sinValue, cosValue, 0,
+			0, 0, 1
+		};
 
-        double translationMatrix[] = 
-        {
-        	1, 0, translationX,
-        	0, 1, translationY,
-        	0, 0, 1
-        };
+		double translationMatrix[] = 
+		{
+			1, 0, translationX,
+			0, 1, translationY,
+			0, 0, 1
+		};
 
-        double scalingMatrix[] =
-        {
-        	scalar, 0, 0,
-        	0, scalar, 0,
-        	0, 0, 1
-        };
+		double scalingMatrix[] =
+		{
+			scalar, 0, 0,
+			0, scalar, 0,
+			0, 0, 1
+		};
 
-        multipleMatrix(matrix, scalingMatrix);
-        multipleMatrix(matrix, rotationMatrix);
-        multipleMatrix(matrix, translationMatrix);
+		multipleMatrix(matrix, scalingMatrix);
+		multipleMatrix(matrix, rotationMatrix);
+		multipleMatrix(matrix, translationMatrix);
 
-        x86_function(screen->pixels, picture->pixels, width, height, matrix);
-
-
+		x86_function(screen->pixels, picture->pixels, width, height, matrix);
 
 		SDL_Flip( screen );
-		SDL_Delay(10);
+        SDL_Delay(10);
 
     }
 
